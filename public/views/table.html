@@ -1,5 +1,5 @@
 <section>
-	<table>
+	<table class="table table-hover">
 		<tr>
 			<th>Type</th>
 			<th>Symbol</th>
@@ -7,26 +7,12 @@
 			<th>Shares</th>
 			<th>Value</th>
 		</tr>
-		<tr>
-			<td>Stock</td>
-			<td>PLHLD</td>
-			<td>1.23</td>
-			<td>200</td>
-			<td>246</td>
-		</tr>
-		<tr>
-			<td>Bond</td>
-			<td>BND</td>
-			<td>4.56</td>
-			<td>100</td>
-			<td>456</td>
-		</tr>
-		<tr>
-			<td>Fund</td>
-			<td>FNDFX</td>
-			<td>7.89</td>
-			<td>10</td>
-			<td>78.90</td>
+		<tr ng-repeat="s in testdata.data">
+			<td>{{s.type}}</td>
+			<td>{{s.symbol}}</td>
+			<td>{{s.price}}</td>
+			<td>{{s.shares}}</td>
+			<td>undefined</td>
 		</tr>
 	</table>
 </section>
