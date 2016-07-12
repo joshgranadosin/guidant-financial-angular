@@ -1,4 +1,37 @@
 div.pie{
-	height: 500px;
+	height: 100vw; max-height: 50vh;
+}
+
+ul{
+	text-align: center;
+	list-style: none; padding-left: 0;
+}
+
+li{
+	display: block;
+}
+
+section.toggler{
+	display: block;
 	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+section.big-view{
+	display: none;
+}
+
+section.small-view{
+	display: block;
+}
+
+/* bigger view responsive case */
+@media (min-width: 650px){
+	section.big-view{
+		display: block;
+	}
+	section.small-view{
+		display: none;
+	}
 }

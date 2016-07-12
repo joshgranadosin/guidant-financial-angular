@@ -2,6 +2,19 @@
 	<div google-chart class="pie" chart="myChartObject"></div>
 </section>
 
+<section class="container toggler" ng-if="toggleEnabled">
+	<div class="btn-group">
+    <label class="btn btn-primary btn-xs" ng-click="togglePie('percentage')"
+    	ng-class="{'active': (pieSliceText === 'percentage')}">
+    	Percent
+    </label>
+    <label class="btn btn-primary btn-xs" ng-click="togglePie('value')"
+    	ng-class="{'active': (pieSliceText === 'value')}">
+    	Value
+    </label>
+	</div>
+</section>
+
 <section class="container">
 	<table class="table table-hover table-condensed">
 		<tr>
@@ -20,3 +33,16 @@
 		</tr>
 	</table>
 </section>
+
+<section class="">
+
+</section>
+
+<!-- <section class="container">
+	<ul>
+		<li><strong>Value of All Securities: {{stockVal + bondVal + fundVal}}</strong></li>
+		<li>Value of Stocks: {{stockVal}}
+		<li>Value of Bonds: {{bondVal}}
+		<li>Value of Funds: {{fundVal}}
+	<ul>
+</section> -->
