@@ -1,4 +1,4 @@
-var controllers = angular.module('GFCtrls', ['GFServices', 'chart.js']);
+var controllers = angular.module('GFCtrls', ['GFServices', 'googlechart']);
 
 controllers.controller('TableCtrl', ['$scope', function($scope){
 	$scope.data = [
@@ -9,9 +9,6 @@ controllers.controller('TableCtrl', ['$scope', function($scope){
 	]
 
 	$scope.values = [];
-	$scope.pieData = [];
-	$scope.pieLabels = ['STOCK','BOND','FUND'];
-	$scope.pieOptions = {};
 	$scope.stockVal = 0;
 	$scope.bondVal = 0;
 	$scope.fundVal = 0;
@@ -32,11 +29,43 @@ controllers.controller('TableCtrl', ['$scope', function($scope){
 			else if(s.type === 'BOND'){$scope.bondVal += num}
 			else if(s.type === 'FUND'){$scope.fundVal += num}
 		});
-
-		$scope.pieData = [$scope.stockVal, $scope.bondVal, $scope.fundVal];
 	}
 
 	calcAll();
-	console.log($scope.pieData);
+
+/* pie options */
+	  $scope.myChartObject = {};
+    
+    $scope.myChartObject.type = "PieChart";
+
+    $scope.myChartObject.data = {
+    	cols: [
+        {id: "t", label: "label", type: "string"},
+        {id: "s", label: "value", type: "number"}
+    	],
+    	rows: [
+        {c: [
+        	{v: "Value of Stocks: " + $scope.stockVal},
+        	{v: $scope.stockVal}
+        	]
+        },
+        {c: [
+        	{v: "Value of Bonds: " + $scope.bondVal},
+        	{v: $scope.bondVal}
+        	]
+        },
+        {c: [
+          {v: "Value of Funds: " + $scope.fundVal},
+          {v: $scope.fundVal},
+        	]
+      	}
+    	]
+  	};
+
+    $scope.myChartObject.options = {
+        title: 'Distribution of Securities',
+        legend: {position:'labeled'},
+        pieSliceText: 'none'
+    };
 
 }])
