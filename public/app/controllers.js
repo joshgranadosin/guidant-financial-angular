@@ -78,6 +78,7 @@ controllers.controller('TableCtrl', ['$scope', '$window', function($scope, $wind
 		if($window.innerWidth < 650){
 			$scope.myChartObject.options = {
        title: 'Distribution of Securities',
+        titleTextStyle: {fontSize: 16},
         legend: {position:'bottom'},
         pieSliceText: $scope.pieSliceText,
         pieStartAngle: 90
@@ -87,6 +88,7 @@ controllers.controller('TableCtrl', ['$scope', '$window', function($scope, $wind
 		else{
 			$scope.myChartObject.options = {
         title: 'Distribution of Securities',
+        titleTextStyle: {fontSize: 24},
         legend: {position:'labeled', labeledValueText: 'both'},
         pieSliceText: 'none',
         pieStartAngle: 90
@@ -107,4 +109,13 @@ controllers.controller('TableCtrl', ['$scope', '$window', function($scope, $wind
 		redrawPieChart();
 	}
 
+}]);
+
+controllers.controller('LoginCtrl', ['$scope', function($scope){
+	$scope.email = '';
+	$scope.password = '';
+
+	$scope.login = function(){
+		console.log($scope.email,$scope.password);
+	}
 }])

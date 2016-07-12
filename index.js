@@ -5,6 +5,8 @@ var app = express();
 // middleware
 app.use(express.static(path.join(__dirname, 'public')));
 
+// api routes
+
 // login main page
 app.get('/*', function(req,res){
 	res.sendFile(path.join(__dirname, 'public/index.html'));
