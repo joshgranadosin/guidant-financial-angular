@@ -1,4 +1,10 @@
 <section>
+	<canvas id="pie" class="chart chart-pie" chart-data="pieData" chart-labels="pieLabels"
+		chart-options="pieOptions">
+	</canvas> 
+</section>
+
+<section>
 	<table class="table table-hover">
 		<tr>
 			<th>Type</th>
@@ -7,12 +13,12 @@
 			<th>Shares</th>
 			<th>Value</th>
 		</tr>
-		<tr ng-repeat="s in testdata.data">
+		<tr ng-repeat="s in data">
 			<td>{{s.type}}</td>
 			<td>{{s.symbol}}</td>
 			<td>{{s.price}}</td>
 			<td>{{s.shares}}</td>
-			<td>undefined</td>
+			<td>{{values[$index]}}</td>
 		</tr>
 	</table>
 </section>
