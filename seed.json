@@ -1,0 +1,90 @@
+[
+  {
+    "model":"admin",
+    "data":{"email":"admin@email.com","password":"password"}
+  },
+  {
+    "model":"portfolio",
+    "data":{"email":"test1@email.com","password":"password"}
+  },
+  {
+    "model":"portfolio",
+    "data":{"email":"test2@email.com","password":"password"}
+  },
+  {
+    "model":"portfolio",
+    "data":{"email":"test3@email.com","password":"password"}
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"MSFT", "type":"STOCK", "shares":100, "price":55, "value": "auto", "portfolio": {"email":"test1@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"LNKD", "type":"STOCK", "shares":100, "price":190, "value": "auto", "portfolio": {"email":"test1@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"BAC17F", "type":"BOND", "shares":100, "price":105, "value": "auto", "portfolio": {"email":"test1@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"BABFX", "type":"FUND", "shares":100, "price":15, "value": "auto", "portfolio": {"email":"test1@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"GOOGL", "type":"STOCK", "shares":150, "price":100, "value": "auto", "portfolio": {"email":"test2@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"T", "type":"STOCK", "shares":120, "price":100, "value": "auto", "portfolio": {"email":"test2@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"AMT21A", "type":"BOND", "shares":180, "price":100, "value": "auto", "portfolio": {"email":"test2@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"FABX", "type":"FUND", "shares":210, "price":100, "value": "auto", "portfolio": {"email":"test2@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"AMZN", "type":"STOCK", "shares":50, "price":740, "value": "auto", "portfolio": {"email":"test3@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"AAPL", "type":"STOCK", "shares":100, "price":100, "value": "auto", "portfolio": {"email":"test3@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"DOW19", "type":"BOND", "shares":150, "price":100, "value": "auto", "portfolio": {"email":"test3@email.com"}
+    }
+  },
+  {
+    "model":"security",
+    "data":{
+      "symbol":"TAGGX", "type":"FUND", "shares":200, "price":20, "value": "auto", "portfolio": {"email":"test3@email.com"}
+    }
+  }
+]

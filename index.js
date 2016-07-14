@@ -1,5 +1,8 @@
 var express = require('express');
 var path = require('path');
+var bodyParser = requre('body-parser');
+
+
 var app = express();
 
 // middleware
@@ -7,6 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // api routes
 app.get('/user/:user', function(req,res){
+
 
 // fake user data
 	var test1data = {email: "test1@email.com", securities: [
