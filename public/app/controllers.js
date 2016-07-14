@@ -31,6 +31,7 @@ function($scope, $state, $window, GFAPI){
 
 	// calculates each value, declared not called
 	function calcVal(s){
+		if(s.value !== 'auto'){return s.value}
 		if(s.type === 'STOCK'){return s.shares * s.price}
 		else if(s.type === 'BOND'){return s.shares * s.price * 0.8}
 		else if(s.type === 'FUND'){return s.shares * s.price * 0.6}
