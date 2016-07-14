@@ -1,14 +1,27 @@
 var controllers = angular.module('GFCtrls', ['GFServices', 'googlechart']);
 
-controllers.controller('TableCtrl', ['$scope', '$window', function($scope, $window){
+controllers.controller('LoginCtrl', ['$scope', 'GFAPI',
+function($scope, GFAPI){
+	$scope.email = '';
+	$scope.password = '';
+
+	$scope.login = function(){
+		console.log($scope.email, $scope.password);
+		GFAPI.login($scope.email, $scope.password);
+	}
+}]);
+
+controllers.controller('TableCtrl', ['$scope', '$state', '$window', 'GFAPI',
+function($scope, $state, $window, GFAPI){
+	// logout
+	$scope.logout = function(){
+		$state.go('login');
+	}
 
 	// fake data for testing
-	$scope.data = [
-		{symbol:'GOOGL', type:'STOCK', shares:100, price:30},
-		{symbol:'MSFT', type:'STOCK', shares:50, price:10},
-		{symbol:'BNDS', type:'BOND', shares:25, price:100},
-		{symbol:'FDFX', type:'FUND', shares:10, price:20}
-	]
+	$scope.email = GFAPI.getUser();
+	$scope.data = GFAPI.getData();
+	console.log($scope.data);
 
 	// required declaration for charts
 	$scope.values = [];
@@ -110,12 +123,3 @@ controllers.controller('TableCtrl', ['$scope', '$window', function($scope, $wind
 	}
 
 }]);
-
-controllers.controller('LoginCtrl', ['$scope', function($scope){
-	$scope.email = '';
-	$scope.password = '';
-
-	$scope.login = function(){
-		console.log($scope.email,$scope.password);
-	}
-}])

@@ -17,21 +17,3 @@ section.toggler{
 	text-align: center;
 	margin-bottom: 20px;
 }
-
-section.big-view{
-	display: none;
-}
-
-section.small-view{
-	display: block;
-}
-
-/* bigger view responsive case */
-@media (min-width: 650px){
-	section.big-view{
-		display: block;
-	}
-	section.small-view{
-		display: none;
-	}
-}
