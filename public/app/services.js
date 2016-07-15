@@ -1,5 +1,6 @@
 var services = angular.module('GFServices', []);
 
+// factory for logging in and getting securities data
 services.factory('GFAPI', ['$http', '$state', function($http, $state){
 	var currentUser = null;
 	var currentData = null;

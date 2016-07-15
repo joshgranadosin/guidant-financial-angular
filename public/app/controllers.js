@@ -1,5 +1,6 @@
 var controllers = angular.module('GFCtrls', ['GFServices', 'googlechart']);
 
+// Controller for login page
 controllers.controller('LoginCtrl', ['$scope', 'GFAPI',
 function($scope, GFAPI){
 	$scope.email = '';
@@ -10,17 +11,17 @@ function($scope, GFAPI){
 	}
 }]);
 
-controllers.controller('TableCtrl', ['$scope', '$state', '$window', 'GFAPI',
+// Controller for main page
+controllers.controller('MainCtrl', ['$scope', '$state', '$window', 'GFAPI',
 function($scope, $state, $window, GFAPI){
 	// logout
 	$scope.logout = function(){
 		$state.go('login');
 	}
 
-	// fake data for testing
+	// get data from factory
 	$scope.email = GFAPI.getUser();
 	$scope.data = GFAPI.getData();
-	console.log($scope.data);
 
 	// required declaration for charts
 	$scope.values = [];
@@ -28,7 +29,7 @@ function($scope, $state, $window, GFAPI){
 	$scope.bondVal = 0;
 	$scope.fundVal = 0;
 
-	// calculates each value, declared not called
+	// calculates each value, declared not called to be re-used
 	function calcVal(s){
 		if(s.value !== 'auto'){return s.value}
 		if(s.type === 'STOCK'){return s.shares * s.price}
@@ -36,7 +37,7 @@ function($scope, $state, $window, GFAPI){
 		else if(s.type === 'FUND'){return s.shares * s.price * 0.6}
 	}
 
-	// calculates all values, declared not called
+	// calculates all values, declared not called to be re-used
 	function calcAll(){
 		$scope.stockVal = $scope.bondVal = $scope.fundVal = 0;
 		$scope.data.forEach(function(s){
@@ -85,9 +86,11 @@ function($scope, $state, $window, GFAPI){
 	$scope.pieSliceText = 'percentage';
 	$scope.toggleEnabled = true;
 
-	// determine options based on screen size, declared not called
+	// determine options based on screen size, declared not called so can be re-used when screen is re-sized
+	// necessary because chart draw is not part of angular's digest loop and will not be redrawn when info changes
 	function redrawPieChart(){
-		console.log('redrawing pie');
+
+		// options for smaller screen
 		if($window.innerWidth < 650){
 			$scope.myChartObject.options = {
        title: 'Distribution of Securities',
@@ -98,6 +101,8 @@ function($scope, $state, $window, GFAPI){
 	    };
 	    $scope.toggleEnabled = true;
 		}
+
+		// options for larger screen
 		else{
 			$scope.myChartObject.options = {
         title: 'Distribution of Securities',
@@ -110,12 +115,15 @@ function($scope, $state, $window, GFAPI){
 		}
 	}
 
-	// calls above function, and calls again when screen is resized
+	// calls above function for the first time
 	redrawPieChart();
+
+	// calls again when screen is resized
 	angular.element($window).bind('resize', function(){
 	  redrawPieChart();
 	});
 
+	// calls again when options change
 	$scope.togglePie = function(str){
 		$scope.pieSliceText = str;
 		console.log($scope.pieSliceText)
