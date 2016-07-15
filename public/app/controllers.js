@@ -6,7 +6,6 @@ function($scope, GFAPI){
 	$scope.password = '';
 
 	$scope.login = function(){
-		console.log($scope.email, $scope.password);
 		GFAPI.login($scope.email, $scope.password);
 	}
 }]);
