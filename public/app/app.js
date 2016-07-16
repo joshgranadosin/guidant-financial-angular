@@ -14,8 +14,13 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
 	})
 	.state('main', {		//main page shows securities
 		url: '/main',
-		templateUrl: 'views/table.html',
+		templateUrl: 'views/main.html',
 		controller: 'MainCtrl'
+	})
+	.state('admin', {
+		url: '/admin',
+		templateUrl: 'views/admin.html',
+		controller: 'AdminCtrl'
 	})
 
 	// enables browser button

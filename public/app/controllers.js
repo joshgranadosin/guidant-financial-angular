@@ -1,5 +1,4 @@
 var controllers = angular.module('GFCtrls', ['GFServices', 'googlechart']);
-
 // Controller for login page
 controllers.controller('LoginCtrl', ['$scope', 'GFAPI',
 function($scope, GFAPI){
@@ -8,6 +7,33 @@ function($scope, GFAPI){
 
 	$scope.login = function(){
 		GFAPI.login($scope.email, $scope.password);
+	}
+
+	$scope.adminLogin = function(){
+		GFAPI.adminLogin($scope.email, $scope.password);
+	}
+}]);
+
+// Controller for admin
+controllers.controller('AdminCtrl', ['$scope', 'GFAPI',
+function($scope, GFAPI){
+	$scope.admin = GFAPI.confirmAdmin();
+	$scope.show = false;
+
+	// logout
+	$scope.logout = function(){
+		GFAPI.logout();
+	}
+
+	// lookup the data for a portfolio
+	$scope.email = '';
+	$scope.data = '';
+	$scope.lookup = function(str){
+		GFAPI.lookup($scope.email, function(){
+			$scope.email = GFAPI.getUser();
+			$scope.data = GFAPI.getData();
+			$scope.show = true;
+		})
 	}
 }]);
 

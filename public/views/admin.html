@@ -1,0 +1,62 @@
+<nav class="navbar navbar-warning" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Guidant Financial Securities - Admin</a>
+		</div>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a ng-click="logout()">Logged in as {{admin}}</a></li>
+		</ul>
+	</div>
+</nav>
+
+<section class="container">
+	<legend>Form title</legend>
+
+	<div class="form-group">
+		<label for="">label</label>
+		<input type="text" class="form-control" id="" placeholder="Input field">
+	</div>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
+</section>
+
+<section class="container" ng-if="show">
+	<table class="table table-hover table-condensed">
+		<tr>
+			<th>Type</th>
+			<th>Symbol</th>
+			<th>Price</th>
+			<th>Shares</th>
+			<th>Value</th>
+		</tr>
+		<tr ng-repeat="s in data">
+			<td>{{s.type}}</td>
+			<td>{{s.symbol}}</td>
+			<td>{{s.price}}</td>
+			<td>{{s.shares}}</td>
+			<td>{{values[$index]}}</td>
+		</tr>
+		<tr>
+			<td><strong>TOTAL</strong></td>
+			<td>---</td>
+			<td>---</td>
+			<td>---</td>
+			<td>{{stockVal + bondVal + fundVal}}</td>
+		<tr>
+	</table>
+</section>
+
+<section class="">
+
+</section>
+
+<!-- <section class="container">
+	<ul>
+		<li><strong>Value of All Securities: {{stockVal + bondVal + fundVal}}</strong></li>
+		<li>Value of Stocks: {{stockVal}}
+		<li>Value of Bonds: {{bondVal}}
+		<li>Value of Funds: {{fundVal}}
+	<ul>
+</section> -->
