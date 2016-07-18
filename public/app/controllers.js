@@ -27,15 +27,39 @@ function($scope, GFAPI){
 
 	// lookup the data for a portfolio
 	$scope.email = '';
-	$scope.data = '';
+	$scope.data = null;
+	$scope.values = [];
+	$scope.valuesTotal = 0;
 	$scope.lookup = function(str){
 		GFAPI.lookup($scope.email, function(){
 			$scope.email = GFAPI.getUser();
 			$scope.data = GFAPI.getData();
 			$scope.show = true;
+			calcAll();
 		})
 	}
+	
+	// calculates each value, declared not called to be re-used
+	function calcVal(s){
+		if(s.value !== 'auto'){return s.value}
+		if(s.type === 'STOCK'){return s.shares * s.price}
+		else if(s.type === 'BOND'){return s.shares * s.price * 0.8}
+		else if(s.type === 'FUND'){return s.shares * s.price * 0.6}
+	}
+
+	// calculates all values, declared not called to be re-used
+	function calcAll(){
+		$scope.valuesTotal = 0;
+		$scope.data.forEach(function(s){
+			var num = calcVal(s)
+			$scope.values.push(num);
+			$scope.valuesTotal += num;
+		});
+	}
+
 }]);
+
+
 
 // Controller for main page
 controllers.controller('MainCtrl', ['$scope', '$state', '$window', 'GFAPI',

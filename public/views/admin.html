@@ -12,14 +12,16 @@
 </nav>
 
 <section class="container">
-	<legend>Form title</legend>
+	<legend>Portfolio Lookup</legend>
 
-	<div class="form-group">
-		<label for="">label</label>
-		<input type="text" class="form-control" id="" placeholder="Input field">
-	</div>
-
-	<button type="submit" class="btn btn-primary">Submit</button>
+	<form ng-submit="lookup()">
+	  <div class="input-group">
+	    <input type="text" class="form-control" ng-model="email" placeholder="Portfolio Email...">
+	    <span class="input-group-btn">
+	      <button class="btn btn-default" type="submit">Look Up</button>
+	    </span>
+	  </div><!-- /input-group -->
+  </form>
 </section>
 
 <section class="container" ng-if="show">
@@ -43,7 +45,7 @@
 			<td>---</td>
 			<td>---</td>
 			<td>---</td>
-			<td>{{stockVal + bondVal + fundVal}}</td>
+			<td>{{valuesTotal}}</td>
 		<tr>
 	</table>
 </section>
@@ -51,12 +53,3 @@
 <section class="">
 
 </section>
-
-<!-- <section class="container">
-	<ul>
-		<li><strong>Value of All Securities: {{stockVal + bondVal + fundVal}}</strong></li>
-		<li>Value of Stocks: {{stockVal}}
-		<li>Value of Bonds: {{bondVal}}
-		<li>Value of Funds: {{fundVal}}
-	<ul>
-</section> -->
