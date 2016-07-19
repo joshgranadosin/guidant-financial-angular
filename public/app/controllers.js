@@ -92,31 +92,35 @@ function($scope, GFAPI, $http, $uibModal){
 		});
 	}
 
-  $scope.modal = function () {
+	$scope.modalInstance = undefined;
 
-    var modalInstance = $uibModal.open({
+	// modal
+  $scope.modal = function(index) {
+  	if(index === -1){
+			$scope.newType = 'STOCK';
+			$scope.newSymbol = '';
+			$scope.newPrice = 1;
+			$scope.newShares = 1;
+			$scope.newValue = 'auto';
+  	}
+  	else{
+		  $scope.newType = $scope.data[index].type;
+			$scope.newSymbol = $scope.data[index].symbol;
+			$scope.newPrice = $scope.data[index].price;
+			$scope.newShares = $scope.data[index].shares;
+			$scope.newValue = $scope.data[index].value;
+  	}
+
+    $scope.modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/modal.html' ,
-      controller: 'AdminCtrl',
-      //size: size,
-      // resolve: {
-      //   items: function () {
-      //     return $scope.items;
-      //   }
-      // }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+      controller: 'AdminCtrl'
     });
   };
 
-  $scope.toggleAnimation = function () {
-    $scope.animationsEnabled = !$scope.animationsEnabled;
+  $scope.closeModal = function() {
+    $scope.$close();
   };
-
 
 }]);
 

@@ -26,8 +26,8 @@
 
 <section class="container" ng-show="show">
 	<legend>Current Portfolio: {{email}}</legend>
-	<button class="btn btn-primary margin-more" ng-click="modal()">Add Item to Portfolio</button>
-	<button class="btn btn-danger margin-more" ng-click="close()">Close Portfolio</button>
+	<button class="btn btn-primary margin-more" ng-click="modal(-1)">Add Item to Portfolio</button>
+	<button class="btn btn-danger" ng-click="close()">Close Portfolio</button>
 </section>
 
 <section class="container" ng-if="show">
