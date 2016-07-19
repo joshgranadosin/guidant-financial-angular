@@ -1,4 +1,4 @@
-var controllers = angular.module('GFCtrls', ['GFServices', 'googlechart']);
+var controllers = angular.module('GFCtrls', ['GFServices', 'googlechart','ui.bootstrap']);
 // Controller for login page
 controllers.controller('LoginCtrl', ['$scope', 'GFAPI',
 function($scope, GFAPI){
@@ -15,8 +15,8 @@ function($scope, GFAPI){
 }]);
 
 // Controller for admin
-controllers.controller('AdminCtrl', ['$scope', 'GFAPI', '$http',
-function($scope, GFAPI, $http){
+controllers.controller('AdminCtrl', ['$scope', 'GFAPI', '$http', '$uibModal',
+function($scope, GFAPI, $http, $uibModal){
 	$scope.admin = GFAPI.confirmAdmin();
 	$scope.show = false;
 
@@ -91,6 +91,32 @@ function($scope, GFAPI, $http){
 			$scope.lookup()
 		});
 	}
+
+  $scope.modal = function () {
+
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'views/modal.html' ,
+      controller: 'AdminCtrl',
+      //size: size,
+      // resolve: {
+      //   items: function () {
+      //     return $scope.items;
+      //   }
+      // }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $scope.toggleAnimation = function () {
+    $scope.animationsEnabled = !$scope.animationsEnabled;
+  };
+
 
 }]);
 

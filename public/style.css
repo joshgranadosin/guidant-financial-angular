@@ -21,6 +21,16 @@ section{
 	margin-bottom: 20px;
 }
 
-select#type{
-	width: 80pt;
+button.margin-more{
+	margin-left: 15px;
+	margin-right: 15px;
 }
+
+section.modal-fix{
+	padding: 30px;
+	width: 100%;
+}
+
+/*select#type{
+	width: 80pt;
+}*/

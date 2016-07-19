@@ -26,34 +26,8 @@
 
 <section class="container" ng-show="show">
 	<legend>Current Portfolio: {{email}}</legend>
-	<button class="btn btn-danger" type="close()">Close Portfolio</button>
-</section>
-
-<section class="container" ng-show="show">
-	<legend>Add an Item to the Portfolio</legend>
-	<form ng-submit="addNewSecurity()">
-		<div class="form-group">
-			<label for="type">Type: </label>
-	    <select type="select" class="form-control" id="type" ng-model="newType">
-	    	<option>STOCK</option>
-	    	<option>BOND</option>
-	    	<option>FUND</option>
-	    </select>
-	  </div>
-	  <div class="form-group">
-	  	<label for="symbol">Symbol: </label>
-	    <input type="text" class="form-control" id="symbol" ng-model="newSymbol" placeholder="SYMBOL">
-	  </div>
-	  <div class="form-group">
-	  	<label for="type">Price: </label>
-	    <input type="number" class="form-control" id="price" ng-model="newPrice" placeholder="PRICE">
-	  </div>
-	 	<div class="form-group">
-	 		<label for="shares">Shares: </label>
-	    <input type="number" class="form-control" id="shares" ng-model="newShares" placeholder="SHARES">
-	  </div>
-	  <button type="submit" class="btn btn-primary">Add</button>
-	</form>
+	<button class="btn btn-primary margin-more" ng-click="modal()">Add Item to Portfolio</button>
+	<button class="btn btn-danger margin-more" ng-click="close()">Close Portfolio</button>
 </section>
 
 <section class="container" ng-if="show">
@@ -83,6 +57,3 @@
 	</table>
 </section>
 
-<section class="">
-
-</section>

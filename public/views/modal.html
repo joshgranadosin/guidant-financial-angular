@@ -1,0 +1,36 @@
+<section class="container modal-fix">
+	<legend>Add an Item to the Portfolio</legend>
+	<form ng-submit="addNewSecurity()">
+		<div class="form-group col-xs-12">
+			<label for="type">Type: </label>
+	    <select type="select" class="form-control" id="type" ng-model="newType">
+	    	<option>STOCK</option>
+	    	<option>BOND</option>
+	    	<option>FUND</option>
+	    </select>
+	  </div>
+	  <div class="form-group col-xs-12">
+	  	<label for="symbol">Symbol: </label>
+	    <input type="text" class="form-control" id="symbol" ng-model="newSymbol" placeholder="SYMBOL">
+	  </div>
+	  <div class="form-group col-xs-12">
+	  	<label for="type">Price: </label>
+	    <input type="number" class="form-control" id="price" ng-model="newPrice" placeholder="PRICE">
+	  </div>
+	 	<div class="form-group col-xs-12">
+	 		<label for="shares">Shares: </label>
+	    <input type="number" class="form-control" id="shares" ng-model="newShares" placeholder="SHARES">
+	  </div>
+	  <div class="form-group col-xs-12">
+	  	<label for="value">Value: </label>
+	    <div class="input-group">
+	      <span class="input-group-btn">
+	        <button class="btn btn-active" type="button">Auto</button>
+	      </span>
+	      <input type="text" class="form-control" placeholder="Search for...">
+	    </div>
+    </div>
+	  <button type="submit" class="btn btn-primary margin-more">Add Item</button>
+	  <button type="submit" class="btn btn-default">Cancel</button>
+	</form>
+</section>
