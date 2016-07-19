@@ -11,15 +11,15 @@
 	  </div>
 	  <div class="form-group col-xs-12">
 	  	<label for="symbol">Symbol: </label>
-	    <input type="text" class="form-control" id="symbol" ng-model="newSymbol" placeholder="SYMBOL">
+	    <input type="text" class="form-control" id="symbol" ng-model="security.symbol" placeholder="SYMBOL">
 	  </div>
 	  <div class="form-group col-xs-12">
 	  	<label for="type">Price: </label>
-	    <input type="number" class="form-control" id="price" ng-model="newPrice" placeholder="PRICE">
+	    <input type="number" class="form-control" id="price" ng-model="security.price" placeholder="PRICE">
 	  </div>
 	 	<div class="form-group col-xs-12">
 	 		<label for="shares">Shares: </label>
-	    <input type="number" class="form-control" id="shares" ng-model="newShares" placeholder="SHARES">
+	    <input type="number" class="form-control" id="shares" ng-model="security.shares" placeholder="SHARES">
 	  </div>
 	  <div class="form-group col-xs-12">
 	  	<label for="value">Value: </label>
@@ -31,6 +31,6 @@
 	    </div>
     </div>
 	  <button type="submit" class="btn btn-primary margin-more">Add Item</button>
-	  <button ng-click="closeModal()" class="btn btn-default">Cancel</button>
+	  <a ng-click="closeModal()" class="btn btn-default">Cancel</a>
 	</form>
 </section>

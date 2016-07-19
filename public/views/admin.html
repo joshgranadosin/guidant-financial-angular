@@ -39,13 +39,15 @@
 			<th>Price</th>
 			<th>Shares</th>
 			<th>Value</th>
+			<th></th>
 		</tr>
 		<tr ng-repeat="s in data">
 			<td>{{s.type}}</td>
 			<td>{{s.symbol}}</td>
 			<td>{{s.price}}</td>
 			<td>{{s.shares}}</td>
-			<td><a ng-click="override($index)">{{values[$index]}}</a></td>
+			<td>{{values[$index]}}</td>
+			<td><a ng-click="modal($index)">[edit]</a></td>
 		</tr>
 		<tr>
 			<td><strong>TOTAL</strong></td>
@@ -53,6 +55,7 @@
 			<td>---</td>
 			<td>---</td>
 			<td>{{valuesTotal}}</td>
+			<td></td>
 		<tr>
 	</table>
 </section>

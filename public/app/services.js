@@ -52,4 +52,4 @@ services.factory('GFAPI', ['$http', '$state', function($http, $state){
 			return administrator;
 		}
 	}
-}])
+}]);

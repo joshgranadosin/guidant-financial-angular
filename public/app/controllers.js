@@ -67,62 +67,79 @@ function($scope, GFAPI, $http, $uibModal){
 		});
 	}
 
-	$scope.newType = 'STOCK';
-	$scope.newSymbol = '';
-	$scope.newPrice = 1;
-	$scope.newShares = 1;
-	$scope.newValue = 'auto'
-
-	$scope.addNewSecurity = function(){
-		console.log('Adding new security');
-		$http({
-			method:'POST',
-			url: '/admin/' + $scope.admin,
-			data:{
-				user: $scope.email,
-				type: $scope.newType,
-				symbol: $scope.newSymbol,
-				price: $scope.newPrice,
-				shares: $scope.newShares,
-				value: $scope.newValue
-			}
-		}).then(function(){
-			console.log('Added new security')
-			$scope.lookup()
-		});
-	}
-
-	$scope.modalInstance = undefined;
-
 	// modal
-  $scope.modal = function(index) {
+	$scope.editSecurity = false;
+
+  $scope.modal = function(index){
   	if(index === -1){
-			$scope.newType = 'STOCK';
-			$scope.newSymbol = '';
-			$scope.newPrice = 1;
-			$scope.newShares = 1;
-			$scope.newValue = 'auto';
+  		$scope.editSecurity = false;
   	}
   	else{
-		  $scope.newType = $scope.data[index].type;
-			$scope.newSymbol = $scope.data[index].symbol;
-			$scope.newPrice = $scope.data[index].price;
-			$scope.newShares = $scope.data[index].shares;
-			$scope.newValue = $scope.data[index].value;
+  		$scope.editSecurity = {
+  			user: $scope.email,
+  			type: $scope.data[index].type,
+  			symbol: $scope.data[index].symbol,
+  			price: $scope.data[index].price,
+  			shares: $scope.data[index].shares,
+  			value: $scope.data[index].value
+  		}
   	}
 
-    $scope.modalInstance = $uibModal.open({
+    modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/modal.html' ,
-      controller: 'AdminCtrl'
+      controller: 'ModalCtrl'
+    }).result.finally(function(){
+    	console.log('closed!');
+    	$scope.lookup();
     });
-  };
 
-  $scope.closeModal = function() {
-    $scope.$close();
+    console.log(modalInstance);
+
+
   };
 
 }]);
+
+controllers.controller('ModalCtrl', ['$scope', '$http', '$uibModalInstance', 'GFAPI',
+function($scope, $http, $uibModalInstance, GFAPI){
+	$scope.admin = GFAPI.confirmAdmin();
+
+	$scope.security = {
+		user: GFAPI.getUser(),
+		type: 'STOCK',
+		symbol: null,
+		price: null,
+		shares: null,
+		value: 'auto'
+	}
+
+	console.log($scope.$parent.editSecurity);
+
+	if($scope.$parent.editSecurity){
+		$scope.security = $scope.$parent.editSecurity;
+	}
+
+	$scope.addNewSecurity = function(){
+		console.log($scope.security)
+		if(!($scope.security.symbol && $scope.security.symbol && $scope.security.shares)){return}
+
+		$http({
+			method:'POST',
+			url: '/admin/' + $scope.admin,
+			data: $scope.security,
+		}).then(function(){
+			console.log('Added new security')
+			$scope.closeModal();
+		});
+	}
+
+	// closes modal
+	$scope.closeModal = function(){
+		$uibModalInstance.close();
+	}
+
+}])
 
 // Controller for main page
 controllers.controller('MainCtrl', ['$scope', '$state', '$window', 'GFAPI',
