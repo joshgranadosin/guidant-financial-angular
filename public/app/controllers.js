@@ -51,7 +51,7 @@ function($scope, GFAPI, $http, $uibModal){
 	
 	// calculates each value, declared not called to be re-used
 	function calcVal(s){
-		if(s.value !== 'auto'){return s.value}
+		if(s.value !== 'auto'){return s.value * 1}
 		if(s.type === 'STOCK'){return s.shares * s.price}
 		else if(s.type === 'BOND'){return s.shares * s.price * 0.8}
 		else if(s.type === 'FUND'){return s.shares * s.price * 0.6}
@@ -60,6 +60,7 @@ function($scope, GFAPI, $http, $uibModal){
 	// calculates all values, declared not called to be re-used
 	function calcAll(){
 		$scope.valuesTotal = 0;
+		$scope.values = [];
 		$scope.data.forEach(function(s){
 			var num = calcVal(s)
 			$scope.values.push(num);
@@ -67,35 +68,43 @@ function($scope, GFAPI, $http, $uibModal){
 		});
 	}
 
-	// modal
-	$scope.editSecurity = false;
+	// Used to determine whether form will update or create security
+	GFAPI.editSecurity = false;
 
+	// Function used to set modal options
   $scope.modal = function(index){
+  	
+  	// if it's a new security
   	if(index === -1){
-  		$scope.editSecurity = false;
+  		GFAPI.editSecurity = false;
   	}
+
+  	// if it's an existing security to be edited
   	else{
-  		$scope.editSecurity = {
+  		console.log($scope.data);
+
+  		GFAPI.editSecurity = {
+  			id: $scope.data[index].id,
   			user: $scope.email,
   			type: $scope.data[index].type,
   			symbol: $scope.data[index].symbol,
-  			price: $scope.data[index].price,
-  			shares: $scope.data[index].shares,
-  			value: $scope.data[index].value
+  			price: parseFloat($scope.data[index].price),
+  			shares: parseFloat($scope.data[index].shares),
+  			value: $scope.data[index].value * 1,	// type case to number to display in form
+  			portfolioID: $scope.data[index].portfolioID
   		}
   	}
 
+  	// open modal
     modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'views/modal.html' ,
       controller: 'ModalCtrl'
+
+    // refreshes view when modal is closed
     }).result.finally(function(){
-    	console.log('closed!');
     	$scope.lookup();
     });
-
-    console.log(modalInstance);
-
 
   };
 
@@ -103,27 +112,33 @@ function($scope, GFAPI, $http, $uibModal){
 
 controllers.controller('ModalCtrl', ['$scope', '$http', '$uibModalInstance', 'GFAPI',
 function($scope, $http, $uibModalInstance, GFAPI){
+	// Use of modal functions allowed only by admin
 	$scope.admin = GFAPI.confirmAdmin();
 
+	// default settings for form
 	$scope.security = {
 		user: GFAPI.getUser(),
 		type: 'STOCK',
 		symbol: null,
 		price: null,
 		shares: null,
-		value: 'auto'
+		value: 'auto',
+		portfolioID: null,
+		id: null
 	}
 
-	console.log($scope.$parent.editSecurity);
-
-	if($scope.$parent.editSecurity){
-		$scope.security = $scope.$parent.editSecurity;
+	// overwrite defaults when editing
+	if(GFAPI.editSecurity){
+		$scope.security = GFAPI.editSecurity;
 	}
 
-	$scope.addNewSecurity = function(){
-		console.log($scope.security)
+	// function called when adding security
+	var addNewSecurity = function(){
+
+		// If something's blank, don't do anything
 		if(!($scope.security.symbol && $scope.security.symbol && $scope.security.shares)){return}
 
+		// request to the back-end
 		$http({
 			method:'POST',
 			url: '/admin/' + $scope.admin,
@@ -134,12 +149,62 @@ function($scope, $http, $uibModalInstance, GFAPI){
 		});
 	}
 
+	// function called when editing existing security
+	var editSecurityRequest = function(){
+
+		// If something's blank, don't do anything
+		if(!($scope.security.symbol && $scope.security.symbol && $scope.security.shares)){return}
+
+		// request to the back-end
+		$http({
+			method:'PUT',
+			url: '/admin/' + $scope.admin,
+			data: $scope.security,
+		}).then(function(){
+			console.log('Added new security')
+			$scope.closeModal();
+		});
+	}
+
+	// function used to determine which request to make to the back-end
+	$scope.formSubmit = function(){
+		if(GFAPI.editSecurity){
+			editSecurityRequest();
+		}
+		else{
+			addNewSecurity();
+		}
+	}
+
+	// deletes security
+	$scope.deleteSecurity = function(){
+		console.log("delete", $scope.security)
+
+		// request to the back-end, must use URL only
+		$http({
+			method:'DELETE',
+			url: '/admin/' + $scope.admin + '/sec/' + $scope.security.id
+		}).then(function(){
+			console.log('Bye-bye security');
+			$scope.closeModal();
+		})
+	}
+
 	// closes modal
 	$scope.closeModal = function(){
 		$uibModalInstance.close();
+		GFAPI.editSecurity = false;
 	}
 
-}])
+	// switch between auto and manual value
+	$scope.switchAuto = function(){
+		$scope.security.value = 'auto';
+	}
+	$scope.switchManual = function(){
+		$scope.security.value = 0;
+	}
+
+}]);
 
 // Controller for main page
 controllers.controller('MainCtrl', ['$scope', '$state', '$window', 'GFAPI',
@@ -161,7 +226,7 @@ function($scope, $state, $window, GFAPI){
 
 	// calculates each value, declared not called to be re-used
 	function calcVal(s){
-		if(s.value !== 'auto'){return s.value}
+		if(s.value !== 'auto'){return s.value * 1}
 		if(s.type === 'STOCK'){return s.shares * s.price}
 		else if(s.type === 'BOND'){return s.shares * s.price * 0.8}
 		else if(s.type === 'FUND'){return s.shares * s.price * 0.6}

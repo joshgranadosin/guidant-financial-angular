@@ -20,7 +20,7 @@ app.get('/user/:user', function(req,res){
 
 		// in case there's an empty response
 		if(!p){
-			return res.status(400).json({message:"Couldn't find user", err:err});
+			return res.status(400).json({message:"Couldn't find user"});
 		}
 
 		// find all securities with that portfolio ID
@@ -45,7 +45,7 @@ app.get('/admin/:admin', function(req, res){
 
 		// in case there's an empty response
 		if(!a){
-			return res.status(500).json({message:"Couldn't find admin", err:err});
+			return res.status(500).json({message:"Couldn't find admin"});
 		}
 
 		res.json({email:a.email});
@@ -64,26 +64,17 @@ app.post('/admin/:admin', function(req, res){
 
 		// in case there's an empty response
 		if(!a){
-			return res.status(500).json({message:"Couldn't find admin", err:err})
+			return res.status(500).json({message:"Couldn't find admin"})
 		}
 
-		var newSecurity = {
-      symbol:req.body.symbol,
-      type:req.body.type,
-      shares:req.body.shares,
-      price:req.body.price,
-      value: "auto",
-      portfolioID: 1
-		}
-
-		// find or create the stock
+		// find or create the security
 		db.portfolio.find({where:{email:req.body.user}}).then(function(p){
 			var newSecurity = {
 	      symbol:req.body.symbol,
 	      type:req.body.type,
 	      shares:req.body.shares,
 	      price:req.body.price,
-	      value: "auto",
+	      value: req.body.value,
 	      portfolioID: p.id
 			}
 
@@ -100,15 +91,81 @@ app.post('/admin/:admin', function(req, res){
 
 			// error cases
 			}).error(function(err){
-				return res.status(400).json({message:"Couldn't create security"});
+				return res.status(400).json({message:"Couldn't create security", err:err});
 			});
 		}).error(function(err){
-			return res.status(400).json({message:"Couldn't find portfolio"});
+			return res.status(400).json({message:"Couldn't find portfolio", err:err});
 		});
 	}).error(function(err){
-		return res.status(400).json({message:"Unauthorized Admin"});
+		return res.status(400).json({message:"Unauthorized Admin", err:err});
 	});
+});
 
+app.put('/admin/:admin', function(req,res){
+	//find the ID for the admin, make sure it's not fake
+	db.admin.find({where:{email:req.params.admin}}).then(function(a){
+
+		// in case there's an empty response
+		if(!a){
+			return res.status(500).json({message:"Couldn't find admin"})
+		}
+
+		var security = {
+      symbol:req.body.symbol,
+      type:req.body.type,
+      shares:req.body.shares,
+      price:req.body.price,
+      value: req.body.value,
+      portfolioID: req.body.portfolioID
+		}
+
+		db.security.find({where:{id:req.body.id}}).then(function(s){
+			if(!s){
+				return res.status(500).json({message:"Couldn't find security", err:err});
+			}
+
+			s.updateAttributes(security).then(function(){
+				return res.status(200).json({message:'Updated'});
+			})
+
+		}).error(function(err){
+			return res.status(500).json({message:"Unable to save security", err:err});
+		});
+
+	}).error(function(err){
+		return res.status(400).json({message:"Unauthorized Admin", err:err});
+	});
+});
+
+app.delete('/admin/:admin/sec/:secID', function(req,res){
+	console.log(req.body)
+
+	//find the ID for the admin, make sure it's not fake
+	db.admin.find({where:{email:req.params.admin}}).then(function(a){
+
+		// in case there's an empty response
+		if(!a){
+			return res.status(500).json({message:"Couldn't find admin"})
+		}
+
+		db.security.find({where:{id:req.params.secID}}).then(function(s){
+			// in case there's an empty response
+			if(!s){
+				return res.status(500).json({message:"Couldn't find security"});
+			}
+
+			// delete and return
+			s.destroy()
+		}).then(function(err){
+			return res.status(200).json({message:'deleted'});
+
+		// error case
+		}).error(function(err){
+			return res.status(500).json({message:"Unable to save security", err:err});
+		});
+	}).error(function(err){
+		return res.status(400).json({message:"Unauthorized Admin", err:err});
+	});
 });
 
 // login main page

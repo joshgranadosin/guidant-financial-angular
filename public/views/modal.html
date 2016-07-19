@@ -1,12 +1,12 @@
 <section class="container modal-fix">
 	<legend>Add an Item to the Portfolio</legend>
-	<form ng-submit="addNewSecurity()">
+	<form ng-submit="formSubmit()">
 		<div class="form-group col-xs-12">
 			<label for="type">Type: </label>
-	    <select type="select" class="form-control" id="type" ng-model="newType">
-	    	<option>STOCK</option>
-	    	<option>BOND</option>
-	    	<option>FUND</option>
+	    <select type="select" class="form-control" id="type" ng-model="security.type">
+	    	<option value="STOCK">STOCK</option>
+	    	<option value="BOND">BOND</option>
+	    	<option value="FUND">FUND</option>
 	    </select>
 	  </div>
 	  <div class="form-group col-xs-12">
@@ -25,12 +25,16 @@
 	  	<label for="value">Value: </label>
 	    <div class="input-group">
 	      <span class="input-group-btn">
-	        <button class="btn btn-active" type="button">Auto</button>
+	        <button class="btn" type="button" ng-click="switchAuto()"
+	        	ng-class="{'btn-primary':security.value === 'auto'}">Auto</button>
+	        <button class="btn" type="button" ng-click="switchManual()"
+	        	ng-class="{'btn-primary':security.value != 'auto'}">Manual:</button>
 	      </span>
-	      <input type="text" class="form-control" placeholder="Search for...">
+	      <input type="number" class="form-control" ng-model="security.value" ng-disabled="(security.value === 'auto')">
 	    </div>
     </div>
 	  <button type="submit" class="btn btn-primary margin-more">Add Item</button>
 	  <a ng-click="closeModal()" class="btn btn-default">Cancel</a>
+	  <a ng-show="security.portfolioID" ng-click="deleteSecurity()" class="btn btn-danger pull-right margin-more">Delete Security</a>
 	</form>
 </section>

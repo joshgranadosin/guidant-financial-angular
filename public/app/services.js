@@ -50,6 +50,7 @@ services.factory('GFAPI', ['$http', '$state', function($http, $state){
 		},
 		confirmAdmin: function(){
 			return administrator;
-		}
+		},
+		editSecurity: false
 	}
 }]);
