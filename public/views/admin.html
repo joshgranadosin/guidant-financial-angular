@@ -11,20 +11,53 @@
 	</div>
 </nav>
 
-<section class="container">
+<section class="container" ng-show="!(show)">
 	<legend>Portfolio Lookup</legend>
 
 	<form ng-submit="lookup()">
 	  <div class="input-group">
 	    <input type="text" class="form-control" ng-model="email" placeholder="Portfolio Email...">
 	    <span class="input-group-btn">
-	      <button class="btn btn-default" type="submit">Look Up</button>
+	      <button class="btn btn-primary" type="submit">Look Up</button>
 	    </span>
 	  </div><!-- /input-group -->
   </form>
 </section>
 
+<section class="container" ng-show="show">
+	<legend>Current Portfolio: {{email}}</legend>
+	<button class="btn btn-danger" type="close()">Close Portfolio</button>
+</section>
+
+<section class="container" ng-show="show">
+	<legend>Add an Item to the Portfolio</legend>
+	<form ng-submit="addNewSecurity()">
+		<div class="form-group">
+			<label for="type">Type: </label>
+	    <select type="select" class="form-control" id="type" ng-model="newType">
+	    	<option>STOCK</option>
+	    	<option>BOND</option>
+	    	<option>FUND</option>
+	    </select>
+	  </div>
+	  <div class="form-group">
+	  	<label for="symbol">Symbol: </label>
+	    <input type="text" class="form-control" id="symbol" ng-model="newSymbol" placeholder="SYMBOL">
+	  </div>
+	  <div class="form-group">
+	  	<label for="type">Price: </label>
+	    <input type="number" class="form-control" id="price" ng-model="newPrice" placeholder="PRICE">
+	  </div>
+	 	<div class="form-group">
+	 		<label for="shares">Shares: </label>
+	    <input type="number" class="form-control" id="shares" ng-model="newShares" placeholder="SHARES">
+	  </div>
+	  <button type="submit" class="btn btn-primary">Add</button>
+	</form>
+</section>
+
 <section class="container" ng-if="show">
+	<legend>Portfolio Details</legend>
 	<table class="table table-hover table-condensed">
 		<tr>
 			<th>Type</th>
@@ -38,7 +71,7 @@
 			<td>{{s.symbol}}</td>
 			<td>{{s.price}}</td>
 			<td>{{s.shares}}</td>
-			<td>{{values[$index]}}</td>
+			<td><a ng-click="override($index)">{{values[$index]}}</a></td>
 		</tr>
 		<tr>
 			<td><strong>TOTAL</strong></td>

@@ -15,5 +15,12 @@ section.toggler{
 	display: block;
 	width: 100%;
 	text-align: center;
+}
+
+section{
 	margin-bottom: 20px;
+}
+
+select#type{
+	width: 80pt;
 }

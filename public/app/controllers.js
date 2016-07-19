@@ -15,8 +15,8 @@ function($scope, GFAPI){
 }]);
 
 // Controller for admin
-controllers.controller('AdminCtrl', ['$scope', 'GFAPI',
-function($scope, GFAPI){
+controllers.controller('AdminCtrl', ['$scope', 'GFAPI', '$http',
+function($scope, GFAPI, $http){
 	$scope.admin = GFAPI.confirmAdmin();
 	$scope.show = false;
 
@@ -30,13 +30,23 @@ function($scope, GFAPI){
 	$scope.data = null;
 	$scope.values = [];
 	$scope.valuesTotal = 0;
-	$scope.lookup = function(str){
+
+	$scope.lookup = function(){
 		GFAPI.lookup($scope.email, function(){
 			$scope.email = GFAPI.getUser();
 			$scope.data = GFAPI.getData();
 			$scope.show = true;
 			calcAll();
 		})
+	}
+
+	// reset values when it's closed
+	$scope.close = function(){
+		$scope.email = '';
+		$scope.data = null;
+		$scope.values = [];
+		$scope.valuesTotal = 0;
+		$scope.show = false;
 	}
 	
 	// calculates each value, declared not called to be re-used
@@ -57,9 +67,32 @@ function($scope, GFAPI){
 		});
 	}
 
+	$scope.newType = 'STOCK';
+	$scope.newSymbol = '';
+	$scope.newPrice = 1;
+	$scope.newShares = 1;
+	$scope.newValue = 'auto'
+
+	$scope.addNewSecurity = function(){
+		console.log('Adding new security');
+		$http({
+			method:'POST',
+			url: '/admin/' + $scope.admin,
+			data:{
+				user: $scope.email,
+				type: $scope.newType,
+				symbol: $scope.newSymbol,
+				price: $scope.newPrice,
+				shares: $scope.newShares,
+				value: $scope.newValue
+			}
+		}).then(function(){
+			console.log('Added new security')
+			$scope.lookup()
+		});
+	}
+
 }]);
-
-
 
 // Controller for main page
 controllers.controller('MainCtrl', ['$scope', '$state', '$window', 'GFAPI',

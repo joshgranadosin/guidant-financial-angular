@@ -9,6 +9,8 @@ var app = express();
 
 // middleware
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 // api routes
 app.get('/user/:user', function(req,res){
@@ -43,7 +45,7 @@ app.get('/admin/:admin', function(req, res){
 
 		// in case there's an empty response
 		if(!a){
-			return res.status(400).json({message:"Couldn't find admin", err:err});
+			return res.status(500).json({message:"Couldn't find admin", err:err});
 		}
 
 		res.json({email:a.email});
@@ -52,6 +54,61 @@ app.get('/admin/:admin', function(req, res){
 	}).error(function(err){
 		return res.status(400).json({message:"Unauthorized", err:err});
 	});
+});
+
+app.post('/admin/:admin', function(req, res){
+	console.log(req.body);
+
+	//find the ID for the admin, make sure it's not fake
+	db.admin.find({where:{email:req.params.admin}}).then(function(a){
+
+		// in case there's an empty response
+		if(!a){
+			return res.status(500).json({message:"Couldn't find admin", err:err})
+		}
+
+		var newSecurity = {
+      symbol:req.body.symbol,
+      type:req.body.type,
+      shares:req.body.shares,
+      price:req.body.price,
+      value: "auto",
+      portfolioID: 1
+		}
+
+		// find or create the stock
+		db.portfolio.find({where:{email:req.body.user}}).then(function(p){
+			var newSecurity = {
+	      symbol:req.body.symbol,
+	      type:req.body.type,
+	      shares:req.body.shares,
+	      price:req.body.price,
+	      value: "auto",
+	      portfolioID: p.id
+			}
+
+			// create the security
+			db.security.findOrCreate({where:newSecurity}).spread(function(s){
+
+				// in case there's an empty response
+				if(!s){
+					return res.status(500).json({message:"Unable to save security"});
+				}
+
+				// send what was successfully saved
+				return res.json({security:s});
+
+			// error cases
+			}).error(function(err){
+				return res.status(400).json({message:"Couldn't create security"});
+			});
+		}).error(function(err){
+			return res.status(400).json({message:"Couldn't find portfolio"});
+		});
+	}).error(function(err){
+		return res.status(400).json({message:"Unauthorized Admin"});
+	});
+
 });
 
 // login main page
