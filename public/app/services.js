@@ -1,7 +1,7 @@
 var services = angular.module('GFServices', []);
 
 // factory for logging in and getting securities data
-services.factory('GFAPI', ['$http', '$state', function($http, $state){
+services.factory('GFAPI', ['$http', '$state', '$window', function($http, $state, $window){
 	var currentUser = null;
 	var currentData = null;
 	var administrator = null;
@@ -23,6 +23,10 @@ services.factory('GFAPI', ['$http', '$state', function($http, $state){
 			return currentData;
 		},
 		lookup: function(user, next){
+			if(!user){
+				return;
+			}
+
 			$http.get('/user/' + user).then(
 				function(res){
 					console.log('success', res);
@@ -33,10 +37,15 @@ services.factory('GFAPI', ['$http', '$state', function($http, $state){
 				},
 				function(res){
 					console.log('error', res);
+					swal('Invalid Login', 'Portfolio email not found.', 'error');
 				}
 			);
 		},
 		adminLogin: function(admin, password){
+			if(!admin){
+				return;
+			}
+
 			$http.get('/admin/' + admin).then(
 				function(res){
 					console.log('success', res);
@@ -45,6 +54,7 @@ services.factory('GFAPI', ['$http', '$state', function($http, $state){
 				},
 				function(res){
 					console.log('error', res);
+					swal('Invalid Login', 'Administrator login not found.', 'error');
 				}
 			)
 		},
