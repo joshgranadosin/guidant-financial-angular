@@ -83,6 +83,12 @@ function($scope, GFAPI, $http, $uibModal){
   	else{
   		console.log($scope.data);
 
+  		// type casting to show number on the form
+  		var forcedValue = 'auto';
+  		if($scope.data[index].value != 'auto'){
+  			forcedValue = $scope.data[index].value * 1
+  		}
+
   		GFAPI.editSecurity = {
   			id: $scope.data[index].id,
   			user: $scope.email,
@@ -90,7 +96,7 @@ function($scope, GFAPI, $http, $uibModal){
   			symbol: $scope.data[index].symbol,
   			price: parseFloat($scope.data[index].price),
   			shares: parseFloat($scope.data[index].shares),
-  			value: $scope.data[index].value * 1,	// type case to number to display in form
+  			value: forcedValue,
   			portfolioID: $scope.data[index].portfolioID
   		}
   	}
